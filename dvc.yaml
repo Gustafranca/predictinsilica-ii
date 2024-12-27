@@ -1,0 +1,25 @@
+stages:
+  data_load:
+    cmd: python3 src/data_loading.py
+
+    deps:
+    - data/raw/MiningProcess_Flotation_Plant_Database.csv
+
+    outs:
+    - data/processed/MiningProcess_Flotation_Plant_Database.csv
+
+  data_clean:
+    cmd: python3 src/data_cleaning.py
+    deps:
+    - data/processed/MiningProcess_Flotation_Plant_Database.csv
+    outs:
+    - data/processed/Cleaned_MiningProcess.csv
+
+
+  data_split:
+    cmd: python3 src/data_split.py
+    deps: 
+    - data/processed/Cleaned_MiningProcess.csv
+    outs:
+    - data/interim/train_MiningProcess.csv
+    - data/interim/test_MiningProcess.csv

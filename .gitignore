@@ -1,0 +1,31 @@
+ 
+
+# Python venv
+sam_env
+env
+# Datasets
+*.csv
+*.xlsx
+*.xls
+*.db
+*.parquet
+*.html
+*.json
+*.txt
+
+# images
+*.png
+
+
+# python
+*cpython*
+__pycache__/
+*.log
+
+/catboost_info/
+
+# notebooks
+/notebooks/*.html
+/notebooks/*_files/
+
+nohup.out
