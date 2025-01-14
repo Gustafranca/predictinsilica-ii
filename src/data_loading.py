@@ -1,4 +1,4 @@
-"""Loading data for the pipeline
+"""Chack if the data is loaded correctly.
 """
 import pandas as pd
 import os

@@ -1,24 +1,32 @@
-"""_summary_
+"""
+This script performs feature engineering on training and test datasets.
+Functions:
+    feature_engineering(data: pd.DataFrame) -> pd.DataFrame:
+    Executes feature engineering on the given data by scaling numeric columns.
+    main():
+        Main function that configures logging, loads parameters, loads data,
+        applies feature engineering, and saves the processed data.
+Usage:
+Run this script as the main module to execute the feature engineering process
+    on the training and test datasets specified in the parameters file.
+    None
 
 Returns:
     _type_: _description_
 """
 import pandas as pd
+import logging
+import yaml
 from sklearn.preprocessing import StandardScaler
-
-
-def load_data(train_path, test_path=None):
-    """Carrega os dados de treinamento e teste."""
-    train_data = pd.read_csv(train_path)
-    if test_path:
-        test_data = pd.read_csv(test_path)
-        return train_data, test_data
-    return train_data
+from utils.dvc.params import get_params
+from utils.dvc.dvclogging import configure_logging
+from utils.data.preprocessing import save_data, check_data_load
 
 
 def feature_engineering(data):
     """Executa a engenharia de características nos dados."""
-
+    with open("params.yaml", "r") as file:
+        params = yaml.safe_load(file)
     scaler = StandardScaler()
     numeric_cols = [
         "% Silica Feed",
@@ -34,19 +42,19 @@ def feature_engineering(data):
     return data
 
 
-def save_data(data, out_path):
-    """Salva os dados processados."""
-    data.to_csv(out_path, index=False)
-
-
 def main():
-    """_summary_"""
-    train_path = "data/interim/train_MiningProcess.csv"
-    test_path = "data/interim/test_MiningProcess.csv"
-    train_out_path = "data/interim/train_features.csv"
-    test_out_path = "data/interim/test_features.csv"
+    """Executa a engenhência de características
+    nos dados de treinamento e teste."""
+    configure_logging()
+    logging.info("Feature Selection")
+    feature_selection = get_params("feature_selection")
+    feature_selection_path = feature_selection["path"]
+    train_path = feature_selection_path["train_path"]
+    test_path = feature_selection_path["test_path"]
+    train_out_path = feature_selection_path["train_out_path"]
+    test_out_path = feature_selection_path["test_out_path"]
 
-    train_data, test_data = load_data(train_path, test_path)
+    train_data, test_data = check_data_load(train_path, test_path)
 
     processed_train_data = feature_engineering(train_data)
     processed_test_data = feature_engineering(test_data)

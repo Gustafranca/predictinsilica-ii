@@ -6,3 +6,45 @@ data_split:
   test_end: "2017-05-07 10:00:00"
   train_start: "2017-05-07 10:00:00"
   train_end: "2017-09-09 23:00:00"
+
+data_clean:
+  raw_path: "data/raw/MiningProcess_Flotation_Plant_Database.csv"
+  clean_path: "data/processed/Cleaned_MiningProcess.csv"
+
+feature_selection:
+  features:
+    - "% Iron Feed"
+    - "% Silica Feed"
+    - "Amina Flow"
+    - "Ore Pulp Flow"
+    - "Ore Pulp pH"
+    - "Ore Pulp Density"
+    - "Flotation Column 01 Air Flow"
+    - "Flotation Column 02 Air Flow"
+    - "Flotation Column 03 Air Flow"
+    - "Flotation Column 04 Air Flow"
+    - "Flotation Column 05 Air Flow"
+    - "Flotation Column 06 Air Flow"
+    - "Flotation Column 07 Air Flow"
+    - "Flotation Column 01 Level"
+    - "Flotation Column 02 Level"
+    - "Flotation Column 03 Level"
+    - "Flotation Column 04 Level"
+    - "Flotation Column 05 Level"
+    - "Flotation Column 06 Level"
+    - "Flotation Column 07 Level"
+    - "% Iron Concentrate"
+    - "% Silica Concentrate"
+    - "% Iron Recovery"
+    - "% Silica Recovery"
+    - "% Iron Concentrate"
+    - "% Silica Concentrate"
+    - "% Iron Recovery"
+    - "% Silica Recovery" 
+  path:
+    train_path: "data/interim/train_MiningProcess.csv"
+    test_path: "data/interim/test_MiningProcess.csv"
+    train_out_path: "data/interim/train_features.csv"
+    test_out_path: "data/interim/test_features.csv"
+
+  
