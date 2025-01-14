@@ -1,20 +1,17 @@
 stages:
-  data_load:
-    cmd: python3 src/data_loading.py
-
-    deps:
-    - data/raw/MiningProcess_Flotation_Plant_Database.csv
-
-    outs:
-    - data/processed/MiningProcess_Flotation_Plant_Database.csv
+  # data_load:
+  #   cmd: python3 src/data_loading.py
+  #   deps:
+  #   - data/raw/MiningProcess_Flotation_Plant_Database.csv
+  #   outs:
+  #   - data/interim/MiningProcess_Flotation_Plant_Database.csv
 
   data_clean:
     cmd: python3 src/data_cleaning.py
     deps:
-    - data/processed/MiningProcess_Flotation_Plant_Database.csv
+    - data/processed/MiningProcess_Flotation_Plant_Database_processed.csv
     outs:
     - data/processed/Cleaned_MiningProcess.csv
-
 
   data_split:
     cmd: python3 src/data_split.py
@@ -23,3 +20,35 @@ stages:
     outs:
     - data/interim/train_MiningProcess.csv
     - data/interim/test_MiningProcess.csv
+
+  feature_selection:
+    cmd: python3 src/feature_selection.py
+    deps:
+    - data/interim/train_MiningProcess.csv
+    - data/interim/test_MiningProcess.csv
+    outs:
+    - data/interim/train_features.csv
+    - data/interim/test_features.csv
+    
+  model_training:
+    cmd: python3 src/model_training.py
+    deps:
+    - data/interim/train_features.csv
+    outs:
+    - models/trained_model.pkl
+
+  model_evaluation:
+    cmd: python3 src/model_evaluation.py
+    deps:
+    - models/trained_model.pkl
+    - data/interim/test_features.csv
+    outs:
+    - metrics/evaluation_metrics.json
+
+  prediction:
+    cmd: python3 src/prediction.py
+    deps:
+    - models/trained_model.pkl
+    - data/interim/test_features.csv
+    outs:
+    - results/predictions.csv

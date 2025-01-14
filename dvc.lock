@@ -1,0 +1,77 @@
+schema: '2.0'
+stages:
+  data_clean:
+    cmd: python3 src/data_cleaning.py
+    deps:
+    - path: data/processed/MiningProcess_Flotation_Plant_Database_processed.csv
+      hash: md5
+      md5: 09ae8fea0da6bc761cbebd9bdabd1abc
+      size: 183766261
+    outs:
+    - path: data/processed/Cleaned_MiningProcess.csv
+      hash: md5
+      md5: eab294808300ebbccc1eba8aaee5d6cf
+      size: 102756621
+      isexec: true
+  data_split:
+    cmd: python3 src/data_split.py
+    deps:
+    - path: data/processed/Cleaned_MiningProcess.csv
+      hash: md5
+      md5: eab294808300ebbccc1eba8aaee5d6cf
+      size: 102756621
+    outs:
+    - path: data/interim/test_MiningProcess.csv
+      hash: md5
+      md5: 0a340394e5232f003aa07ccee2bbb0c6
+      size: 31137995
+      isexec: true
+    - path: data/interim/train_MiningProcess.csv
+      hash: md5
+      md5: 1baddae98bcefdf41ffb91bb8c8e735f
+      size: 71653682
+      isexec: true
+  feature_engineering:
+    cmd: python3 src/feature_engineering.py
+    deps:
+    - path: data/interim/test_MiningProcess.csv
+      hash: md5
+      md5: 0a340394e5232f003aa07ccee2bbb0c6
+      size: 31137995
+    - path: data/interim/train_MiningProcess.csv
+      hash: md5
+      md5: 1baddae98bcefdf41ffb91bb8c8e735f
+      size: 71653682
+    outs:
+    - path: data/interim/test_features.csv
+      hash: md5
+      md5: 27d03c422d7d60639500dd065cfd4a3e
+      size: 42509243
+      isexec: true
+    - path: data/interim/train_features.csv
+      hash: md5
+      md5: e8020a68353fd4404c74b8f6ac7ec3cc
+      size: 97475214
+      isexec: true
+  feature_selection:
+    cmd: python3 src/feature_selection.py
+    deps:
+    - path: data/interim/test_MiningProcess.csv
+      hash: md5
+      md5: 0a340394e5232f003aa07ccee2bbb0c6
+      size: 31137995
+    - path: data/interim/train_MiningProcess.csv
+      hash: md5
+      md5: 1baddae98bcefdf41ffb91bb8c8e735f
+      size: 71653682
+    outs:
+    - path: data/interim/test_features.csv
+      hash: md5
+      md5: 27d03c422d7d60639500dd065cfd4a3e
+      size: 42509243
+      isexec: true
+    - path: data/interim/train_features.csv
+      hash: md5
+      md5: e8020a68353fd4404c74b8f6ac7ec3cc
+      size: 97475214
+      isexec: true

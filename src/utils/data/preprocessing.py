@@ -7,6 +7,7 @@ import logging
 import pandas as pd
 import os
 
+
 def read_data_frame(file_path: str) -> pd.DataFrame:
     """reading df
 
@@ -16,8 +17,9 @@ def read_data_frame(file_path: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: return the df
     """
-    df = pd.read_csv(file_path, decimal=',')
+    df = pd.read_csv(file_path, decimal=",")
     return df
+
 
 def pre_process_df(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -30,28 +32,28 @@ def pre_process_df(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: data with rights types
     """
     df_process = df.copy()
-    object_cols = df_process.select_dtypes(include=['object']).columns
-    df_process[object_cols] = df_process[object_cols].replace(',', '.'
-                                                    ,regex=True)
+    object_cols = df_process.select_dtypes(include=["object"]).columns
+    df_process[object_cols] = df_process[object_cols].replace(",", ".", regex=True)
     for col in object_cols:
-        df_process[col] = pd.to_numeric(df_process[col], errors='coerce')
+        df_process[col] = pd.to_numeric(df_process[col], errors="coerce")
     logging.info(f"Columns data type {df_process.dtypes}")
-    print('Processed')
+    print("Processed")
     print(df.info())
     return df_process
 
 
 def date_time(df: pd.DataFrame) -> pd.DataFrame:
     """data column standardization"""
-    if 'date' in df.columns:
+    if "date" in df.columns:
         try:
-            df['date'] = pd.to_datetime(df['date'])
-            print('changed')
+            df["date"] = pd.to_datetime(df["date"])
+            print("changed")
         except Exception as e:
-            print("Error converting 'date'column"+e)
+            print("Error converting 'date'column" + e)
     else:
         print("No column named 'date' found it")
     return df
+
 
 def removing_outliers(df: pd.DataFrame) -> pd.DataFrame:
     """Remove outliears from all numerical columns in df using IQR method.
@@ -70,12 +72,14 @@ def removing_outliers(df: pd.DataFrame) -> pd.DataFrame:
         IQR = Q3 - Q1
         lower_bound = Q1 - 1.5 * IQR
         upper_bound = Q3 + 1.5 * IQR
-        df_clean = df_clean.loc[(df_clean[column] >= lower_bound ) &
-                            (df_clean[column] <= upper_bound)]
+        df_clean = df_clean.loc[
+            (df_clean[column] >= lower_bound) & (df_clean[column] <= upper_bound)
+        ]
     print("outliears have been removed")
     return df_clean
 
-def save_cvs_processed(df : pd.DataFrame, file_path: str) -> None:
+
+def save_cvs_processed(df: pd.DataFrame, file_path: str) -> None:
     """Saving the processed DataFrame
     Args:
         df (pd.DataFrame): DataFrame to be saved
@@ -89,6 +93,3 @@ def save_cvs_processed(df : pd.DataFrame, file_path: str) -> None:
         print("Data saved  to" + file_path)
     except Exception as e:
         print(f"An error occured while saving the DataFrame {e}")
-
-
-
