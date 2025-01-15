@@ -1,6 +1,5 @@
 """This func cleans the data unsing the module data.preprocessing
 """
-import pandas as pd
 import yaml
 from utils.data.preprocessing import (
     read_data_frame,
@@ -19,7 +18,8 @@ def main():
     )
     df_processed = pre_process_df(df_mining_process_flotation_plant_database)
     df_removed_outliers = removing_outliers(df_processed)
-    save_data(df_removed_outliers, params["data_cleaning"]["processed_data_path"])
+    save_data(df_removed_outliers,
+              params["data_cleaning"]["processed_data_path"])
 
 
 if __name__ == "__main__":

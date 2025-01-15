@@ -10,13 +10,18 @@ stages:
     cmd: python3 src/data_cleaning.py
     deps:
     - data/processed/MiningProcess_Flotation_Plant_Database_processed.csv
+    params: 
+    - data_clean
     outs:
     - data/processed/Cleaned_MiningProcess.csv
+
 
   data_split:
     cmd: python3 src/data_split.py
     deps: 
     - data/processed/Cleaned_MiningProcess.csv
+    params:
+    - data_split
     outs:
     - data/interim/train_MiningProcess.csv
     - data/interim/test_MiningProcess.csv

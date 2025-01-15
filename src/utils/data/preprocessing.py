@@ -2,9 +2,9 @@
 This module contains functions to preprocess the data
 """
 
+import os
 import logging
 import pandas as pd
-import os
 
 
 def read_data_frame(file_path: str) -> pd.DataFrame:
@@ -40,7 +40,8 @@ def pre_process_df(df: pd.DataFrame) -> pd.DataFrame:
     """
     df_process = df.copy()
     object_cols = df_process.select_dtypes(include=["object"]).columns
-    df_process[object_cols] = df_process[object_cols].replace(",", ".", regex=True)
+    df_process[object_cols] = df_process[object_cols].replace(",", ".",
+                                                              regex=True)
     for col in object_cols:
         df_process[col] = pd.to_numeric(df_process[col], errors="coerce")
     if col in object_cols == "date":
@@ -90,7 +91,8 @@ def removing_outliers(df: pd.DataFrame) -> pd.DataFrame:
         lower_bound = Q1 - 1.5 * IQR
         upper_bound = Q3 + 1.5 * IQR
         df_clean = df_clean.loc[
-            (df_clean[column] >= lower_bound) & (df_clean[column] <= upper_bound)
+            (df_clean[column] >= lower_bound) &
+            (df_clean[column] <= upper_bound)
         ]
     print("outliears have been removed")
     return df_clean
@@ -113,13 +115,17 @@ def save_cvs_processed(df: pd.DataFrame, file_path: str) -> None:
 
 
 def spliting_data(
-    df: pd.DataFrame, train_start: str, test_start: str, train_end: str, test_end: str
+    df: pd.DataFrame,
+    train_start: str,
+    test_start: str,
+    train_end: str,
+    test_end: str
 ) -> pd.DataFrame:
     """Split the data into train and test sets
 
     Args:
         df (pd.DataFrame): Dataframe to split
-        train_size (float, optional): Size of the training set. Defaults to 0.8.
+        train_size (float, optional): Size of the training set. Defaults to 0.8
 
     Returns:
         pd.DataFrame: train and test dataframes
