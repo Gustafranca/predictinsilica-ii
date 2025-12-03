@@ -1,4 +1,19 @@
-# PredictInSilica-II
+# PredictInSilica-II (Part 2)
+MLOps & Model Deployment
+
+Predict Silica Concentration is a dataset avalibe on kaggle that happens to be the one set that i need to EDA for my intership. I'm still on the same intership, but, now i'll developing a full system that goes from EDA to model deployment.
+
+## What i'm using: 
+### EDA / MODELING 
+- Pandas, scikit, numpy, pickle etc. \
+### API 
+- Flask 
+- Docker 
+
+
+
+
+# PredictInSilica-II (Part 1)
 
 This project consists of an Exploratory Data Analysis (EDA) and the initial development of a regression model using a real-world dataset from a mining plant. It played a key role in helping me secure my first internship.
 
